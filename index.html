@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>敲木鱼积功德</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #FFF8F0;
+            background-image: url('https://img.freepik.com/free-photo/old-paper-texture_1194-5413.jpg');
+            background-size: cover;
+            padding: 20px;
+        }
+        
+        .container {
+            text-align: center;
+            background-color: rgba(255, 248, 240, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(139, 69, 19, 0.3);
+            border: 2px solid #8B4513;
+            width: 100%;
+            max-width: 350px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        h1 {
+            color: #8B4513;
+            margin: 0 0 25px 0;
+            font-size: 1.8em;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .counter {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #8B4513;
+            font-weight: bold;
+        }
+        
+        .muyu-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .muyu {
+            width: 200px;
+            height: 200px;
+            background-image: url('https://i.ibb.co/S42Vys5Y/removebg-preview.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            cursor: pointer;
+            transition: transform 0.1s;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+        }
+        
+        .muyu:active {
+            transform: scale(1.1);
+        }
+        
+        .message {
+            position: absolute;
+            color: #8B4513;
+            font-size: 18px;
+            font-weight: bold;
+            animation: floatUp 1.5s forwards;
+            opacity: 0;
+            pointer-events: none;
+            text-shadow: 1px 1px 2px white;
+        }
+        
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1.5);
+                opacity: 0;
+            }
+        }
+        
+        .instructions {
+            margin-top: 15px;
+            color: #8B4513;
+            font-size: 14px;
+            font-style: italic;
+        }
+        
+        .achievement {
+            margin: 15px auto 0;
+            padding: 10px;
+            background-color: rgba(139, 69, 19, 0.1);
+            border-radius: 5px;
+            color: #8B4513;
+            font-size: 14px;
+            display: none;
+            max-width: 90%;
+        }
+        
+        .auto-btn {
+            margin: 15px auto 0;
+            padding: 10px 15px;
+            background-color: rgba(139, 69, 19, 0.2);
+            border: 1px solid #8B4513;
+            border-radius: 5px;
+            color: #8B4513;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: none;
+        }
+        
+        .auto-btn:hover {
+            background-color: rgba(139, 69, 19, 0.3);
+        }
+        
+        .auto-btn.active {
+            background-color: rgba(139, 69, 19, 0.4);
+            font-weight: bold;
+        }
+        
+        .mute-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(139, 69, 19, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 1em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+        
+        /* 商店样式 */
+        .shop-btn {
+            margin: 10px auto 0;
+            padding: 8px 12px;
+            background-color: rgba(139, 69, 19, 0.2);
+            border: 1px solid #8B4513;
+            border-radius: 5px;
+            color: #8B4513;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .shop-btn:hover {
+            background-color: rgba(139, 69, 19, 0.3);
+        }
+        
+        .shop {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background-color: rgba(139, 69, 19, 0.1);
+            border-radius: 8px;
+        }
+        
+        .shop-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 8px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 5px;
+        }
+        
+        .shop-item img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            margin-right: 10px;
+        }
+        
+        .shop-item-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .shop-item-name {
+            font-weight: bold;
+            color: #8B4513;
+        }
+        
+        .shop-item-price {
+            font-size: 12px;
+            color: #8B4513;
+        }
+        
+        .shop-item-btn {
+            padding: 5px 10px;
+            background-color: rgba(139, 69, 19, 0.3);
+            border: none;
+            border-radius: 3px;
+            color: #8B4513;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        
+        .shop-item-btn.unlocked {
+            background-color: rgba(0, 128, 0, 0.3);
+            color: green;
+        }
+        
+        .shop-item-btn.equipped {
+            background-color: rgba(139, 69, 19, 0.7);
+            color: white;
+        }
+        
+        .close-shop {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: rgba(139, 69, 19, 0.2);
+            border: 1px solid #8B4513;
+            border-radius: 3px;
+            color: #8B4513;
+            font-size: 12px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="mute-btn" id="muteBtn">🔊</button>
+        <h1>敲木鱼积功德</h1>
+        <div class="counter">功德: <span id="count">0</span></div>
+        
+        <div class="muyu-container">
+            <div class="muyu" id="muyu"></div>
+        </div>
+        
+        <button class="auto-btn" id="autoBtn">自动积德 (0.5秒/次)</button>
+        <button class="shop-btn" id="shopBtn">功德商店</button>
+        
+        <div class="shop" id="shop">
+            <div class="shop-item">
+                <img src="https://i.ibb.co/S42Vys5Y/removebg-preview.png" alt="默认木鱼">
+                <div class="shop-item-info">
+                    <div class="shop-item-name">默认木鱼</div>
+                    <div class="shop-item-price">需要功德: 0</div>
+                </div>
+                <button class="shop-item-btn equipped" data-skin="default">已装备</button>
+            </div>
+            
+            <div class="shop-item">
+                <img src="https://i.ibb.co/VWhxZ4Ly/gold-muyu.png" alt="黄金木鱼">
+                <div class="shop-item-info">
+                    <div class="shop-item-name">黄金木鱼</div>
+                    <div class="shop-item-price">需要功德: 50</div>
+                </div>
+                <button class="shop-item-btn" data-skin="gold" data-price="50">购买</button>
+            </div>
+            
+            <div class="shop-item">
+                <img src="https://i.ibb.co/3m6NCGN0/diamond-muyu.png" alt="钻石木鱼">
+                <div class="shop-item-info">
+                    <div class="shop-item-name">钻石木鱼</div>
+                    <div class="shop-item-price">需要功德: 500</div>
+                </div>
+                <button class="shop-item-btn" data-skin="diamond" data-price="500">购买</button>
+            </div>
+            
+            <div class="shop-item">
+                <img src="https://i.ibb.co/Cpn8r2w2/jade-muyu.png" alt="翡翠木鱼">
+                <div class="shop-item-info">
+                    <div class="shop-item-name">翡翠木鱼</div>
+                    <div class="shop-item-price">需要功德: 1250</div>
+                </div>
+                <button class="shop-item-btn" data-skin="jade" data-price="1250">购买</button>
+            </div>
+            
+            <button class="close-shop" id="closeShop">关闭商店</button>
+        </div>
+        
+        <div class="achievement" id="achievement"></div>
+        <p class="instructions">点击木鱼积攒功德，功德无量</p>
+    </div>
+
+    <!-- 创建多个音频元素备用 -->
+    <audio id="sound1" src="https://raw.githubusercontent.com/IAmRobloxWHY/Sound/main/muyu.mp3" preload="auto"></audio>
+    <audio id="sound2" src="https://raw.githubusercontent.com/IAmRobloxWHY/Sound/main/muyu.mp3" preload="auto"></audio>
+    <audio id="sound3" src="https://raw.githubusercontent.com/IAmRobloxWHY/Sound/main/muyu.mp3" preload="auto"></audio>
+
+    <script>
+        const muyu = document.getElementById('muyu');
+        const countElement = document.getElementById('count');
+        const achievementElement = document.getElementById('achievement');
+        const autoBtn = document.getElementById('autoBtn');
+        const muteBtn = document.getElementById('muteBtn');
+        const shopBtn = document.getElementById('shopBtn');
+        const shop = document.getElementById('shop');
+        const closeShop = document.getElementById('closeShop');
+        let count = 0;
+        let autoInterval = null;
+        let isAutoActive = false;
+        let lastSaveTime = 0;
+        let isMuted = false;
+        
+        // 木鱼皮肤配置
+        const skins = {
+            default: 'https://i.ibb.co/S42Vys5Y/removebg-preview.png',
+            gold: 'https://i.ibb.co/VWhxZ4Ly/gold-muyu.png',
+            diamond: 'https://i.ibb.co/3m6NCGN0/diamond-muyu.png',
+            jade: 'https://i.ibb.co/Cpn8r2w2/jade-muyu.png'
+        };
+        
+        // 初始化时加载保存的数据
+        function loadMerit() {
+            const savedCount = localStorage.getItem('meritCount');
+            if (savedCount) {
+                count = parseInt(savedCount);
+                countElement.textContent = count;
+            }
+            
+            const savedMute = localStorage.getItem('isMuted');
+            if (savedMute === 'true') {
+                isMuted = true;
+                muteBtn.textContent = '🔇';
+            }
+            
+            const savedSkin = localStorage.getItem('currentSkin') || 'default';
+            equipSkin(savedSkin);
+            updateShopButtons();
+            
+            // 检查是否需要显示自动按钮
+            if (count >= 500) {
+                autoBtn.style.display = 'block';
+                // 恢复自动按钮文本状态
+                autoBtn.textContent = count >= 1500 ? '自动积德 (0.5秒/二次)' : '自动积德 (0.5秒/次)';
+            }
+        }
+        
+        // 自动保存数据
+        function autoSaveMerit() {
+            const now = Date.now();
+            if (now - lastSaveTime > 1000) {
+                localStorage.setItem('meritCount', count.toString());
+                localStorage.setItem('isMuted', isMuted.toString());
+                lastSaveTime = now;
+            }
+        }
+        
+        // 装备皮肤
+        function equipSkin(skinType) {
+            if (skinType === 'default' || count >= getSkinPrice(skinType)) {
+                muyu.style.backgroundImage = `url('${skins[skinType]}')`;
+                localStorage.setItem('currentSkin', skinType);
+                return true;
+            }
+            return false;
+        }
+        
+        // 获取皮肤价格
+        function getSkinPrice(skinType) {
+            const prices = {
+                gold: 50,
+                diamond: 500,
+                jade: 1250
+            };
+            return prices[skinType] || 0;
+        }
+        
+        // 更新商店按钮状态
+        function updateShopButtons() {
+            const buttons = document.querySelectorAll('.shop-item-btn');
+            const currentSkin = localStorage.getItem('currentSkin') || 'default';
+            
+            buttons.forEach(btn => {
+                const skin = btn.dataset.skin;
+                const price = parseInt(btn.dataset.price) || 0;
+                
+                btn.classList.remove('unlocked', 'equipped');
+                
+                if (skin === currentSkin) {
+                    btn.textContent = '已装备';
+                    btn.classList.add('equipped');
+                } else if (skin === 'default' || count >= price) {
+                    btn.textContent = '装备';
+                    btn.classList.add('unlocked');
+                } else {
+                    btn.textContent = '购买';
+                }
+            });
+        }
+        
+        // 页面加载时读取数据
+        window.addEventListener('load', loadMerit);
+        
+        // 页面关闭前保存数据
+        window.addEventListener('beforeunload', autoSaveMerit);
+        
+        // 音频池
+        const audioPool = [
+            document.getElementById('sound1'),
+            document.getElementById('sound2'),
+            document.getElementById('sound3')
+        ];
+        let currentAudioIndex = 0;
+        
+        // 确保音频能播放
+        document.body.addEventListener('click', function initAudio() {
+            audioPool.forEach(audio => {
+                audio.play().then(() => {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }).catch(e => console.log("音频初始化失败:", e));
+            });
+            document.body.removeEventListener('click', initAudio);
+        }, { once: true });
+        
+        // 静音按钮点击事件
+        muteBtn.addEventListener('click', function() {
+            isMuted = !isMuted;
+            this.textContent = isMuted ? '🔇' : '🔊';
+            autoSaveMerit();
+        });
+        
+        // 商店按钮点击事件
+        shopBtn.addEventListener('click', function() {
+            shop.style.display = 'block';
+            updateShopButtons();
+        });
+        
+        // 关闭商店按钮
+        closeShop.addEventListener('click', function() {
+            shop.style.display = 'none';
+        });
+        
+        // 商店物品点击事件
+        document.querySelectorAll('.shop-item-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const skin = this.dataset.skin;
+                const price = parseInt(this.dataset.price) || 0;
+                
+                if (skin === 'default' || count >= price) {
+                    if (equipSkin(skin)) {
+                        updateShopButtons();
+                        autoSaveMerit();
+                    }
+                } else {
+                    showAchievement(`需要${price}功德才能解锁`);
+                }
+            });
+        });
+        
+        // 成就信息
+        const achievements = {
+            10: "功德初显",
+            50: "小有功德",
+            100: "功德无量",
+            500: "功德圆满 - 解锁自动积德",
+            1000: "功德成佛",
+            1250: "解锁翡翠木鱼",
+            1500: "功德深厚 - 自动积德效率翻倍"
+        };
+        
+        // 点击木鱼
+        muyu.addEventListener('click', function() {
+            addMerit(1);
+        });
+        
+        // 自动积德按钮
+        autoBtn.addEventListener('click', function() {
+            if (!isAutoActive) {
+                isAutoActive = true;
+                this.classList.add('active');
+                
+                // 根据功德数量决定每次增加的功德值
+                const meritPerTick = count >= 1500 ? 2 : 1;
+                this.textContent = `自动积德 (0.5秒/${meritPerTick > 1 ? '二' : ''}次)`;
+                
+                autoInterval = setInterval(() => {
+                    addMerit(meritPerTick);
+                }, 500);
+            } else {
+                isAutoActive = false;
+                this.classList.remove('active');
+                this.textContent = count >= 1500 ? '自动积德 (0.5秒/二次)' : '自动积德 (0.5秒/次)';
+                clearInterval(autoInterval);
+            }
+        });
+        
+        function playSound() {
+            if (isMuted) return;
+            
+            const audio = audioPool[currentAudioIndex];
+            currentAudioIndex = (currentAudioIndex + 1) % audioPool.length;
+            audio.currentTime = 0;
+            audio.play().catch(e => console.log("音频播放失败:", e));
+            return audio;
+        }
+        
+        function addMerit(increment = 1) {
+            // 播放音效（每次增加功德都播放）
+            playSound();
+            
+            // 增加功德计数
+            count += increment;
+            countElement.textContent = count;
+            
+            // 检查是否达到1500功德并正在自动积德
+            if (count >= 1500 && isAutoActive && increment === 1) {
+                // 重新启动自动积德以应用新速率
+                clearInterval(autoInterval);
+                autoInterval = setInterval(() => {
+                    addMerit(2);
+                }, 500);
+                autoBtn.textContent = '自动积德 (0.5秒/二次)';
+            }
+            
+            // 自动保存
+            autoSaveMerit();
+            
+            // 检查成就
+            if (achievements[count]) {
+                showAchievement(achievements[count]);
+                
+                // 达到500功德时显示自动按钮
+                if (count === 500) {
+                    autoBtn.style.display = 'block';
+                }
+            }
+            
+            // 更新商店按钮状态
+            updateShopButtons();
+            
+            // 创建功德增加文字（显示实际增加量）
+            createMessage(increment);
+        }
+        
+        function createMessage(increment = 1) {
+            const message = document.createElement('div');
+            message.className = 'message';
+            message.textContent = `功德+${increment}`;
+            
+            const rect = muyu.getBoundingClientRect();
+            const x = rect.left + rect.width / 2 + (Math.random() * 50 - 25);
+            const y = rect.top + rect.height / 2;
+            
+            message.style.left = x + 'px';
+            message.style.top = y + 'px';
+            
+            document.body.appendChild(message);
+            
+            setTimeout(() => {
+                message.remove();
+            }, 1500);
+        }
+        
+        function showAchievement(text) {
+            achievementElement.textContent = `达成: ${text}`;
+            achievementElement.style.display = 'block';
+            
+            setTimeout(() => {
+                achievementElement.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
